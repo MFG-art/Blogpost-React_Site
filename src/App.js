@@ -5,7 +5,7 @@ function App() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch("http://3.144.206.166:8000/blogpost/")
+    fetch("http://3.144.206.166:8000/blogposts/")
       .then(response => response.json())
       .then(json => setData(json))
       .catch(error => console.error(error))
@@ -16,6 +16,8 @@ function App() {
 
   return (
     <div>
+      <h1 className="header">Mauricio's Blogposts</h1>
+
       {data ? renderBlogposts(data) : <p>Loading...</p>}
 
     </div>
