@@ -31,6 +31,27 @@
 
 }
 
+.deleteButton {
+  background-color: red;
+  color: white;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  border: red;
+  border-radius: 3px;
+  align-content: center;
+  margin-left: 40%;
+  width: 10%;
+  height: 20px;
+
+}
+
+.form{
+  background-color: lightblue;
+  align-content: center;
+  width: 15%;
+  margin: auto;
+  padding:30px;
+}
+
 html, body {
   margin: 0;
   padding: 0;
