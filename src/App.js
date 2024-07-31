@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Blogpost from './Blogpost';
-import { render } from 'react-dom';
 
 function App() {
   const [data, setData] = useState(null);
@@ -22,7 +21,53 @@ function App() {
   const handleContentChange = (event) => {
     setContent(event.target.value);
   };
+  
+  
+const submitBlogpost = (title,content) => {
+  const formData = new FormData();
+  formData.append('title',title);
+  formData.append('content',content);
+  fetch("http://3.144.206.166:8000/blogposts/",{
+    method: 'POST',
+    body: formData,
+  })
+  .then(
+    response => response.json()
+  ).then(setData)
+  .catch(error => console.error(error));
+  console.log(title + " " + content);
+  getBlogposts();
+}
 
+const getBlogposts = () =>{
+  fetch("http://3.144.206.166:8000/blogposts/")
+  .then(response => response.json())
+  .then(json => setData(json))
+  .catch(error => console.error(error))
+  console.log(data);
+  renderBlogposts(data,setData);
+};
+
+const deleteAPost = (id) =>{
+  fetch("http://3.144.206.166:8000/blogposts/"+id.toString(),{
+    method: 'DELETE',
+  })
+  .then(response => response.json())
+  .catch(error => console.error(error));
+  getBlogposts();
+};
+
+const renderBlogposts = () => {
+  return(
+
+    Object.keys(data).map((key, i) => (
+      <div >
+      <Blogpost title={data[key].title} content={data[key].content} />
+      <button className="deleteButton" onClick={()=>{deleteAPost(data[key].id,data,setData)}}>Delete</button>
+      </div>
+    ))
+  )
+}
   
   return (
     <div>
@@ -42,50 +87,6 @@ function App() {
 
 
 }
-function renderBlogposts (data,setData) {
-  return(
-
-    Object.keys(data).map((key, i) => (
-      <div >
-      <Blogpost id={data[key].id} title={data[key].title} content={data[key].content} published_date={data[key].published_date} />
-      <button className="deleteButton" onClick={()=>{deleteAPost(data[key].id,data,setData)}}>Delete</button>
-      </div>
-    ))
-  )
-}
-
-function submitBlogpost(title,content){
-  const formData = new FormData();
-  formData.append('title',title);
-  formData.append('content',content);
-
-
-  fetch("http://3.144.206.166:8000/blogposts/",{
-    method: 'POST',
-    body: formData,
-  })
-  .then(response => response.json())
-  .catch(error => console.error(error));
-  console.log(title + " " + content);
-}
-
-function deleteAPost(id,data, setData){
-  fetch("http://3.144.206.166:8000/blogposts/"+id.toString(),{
-    method: 'DELETE',
-  })
-  .then(response => response.json())
-  .catch(error => console.error(error));
-  updatePosts(data,setData);
-};
-
-function updatePosts(data, setData){
-  fetch("http://3.144.206.166:8000/blogposts/")
-  .then(response => response.json())
-  .then(json => setData(json))
-  .catch(error => console.error(error))
-  console.log(data);
-  renderBlogposts(data,setData);
-};
 
 
 
