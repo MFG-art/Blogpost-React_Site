@@ -23,11 +23,11 @@ function App() {
   };
   
   
-const submitBlogpost = (title,content) => {
+const submitBlogpost = async (title,content) => {
   const formData = new FormData();
   formData.append('title',title);
   formData.append('content',content);
-  fetch("http://3.144.206.166:8000/blogposts/",{
+  await fetch("http://3.144.206.166:8000/blogposts/",{
     method: 'POST',
     body: formData,
   })
@@ -39,8 +39,8 @@ const submitBlogpost = (title,content) => {
   getBlogposts();
 }
 
-const getBlogposts = () =>{
-  fetch("http://3.144.206.166:8000/blogposts/")
+const getBlogposts = async () => {
+  await fetch("http://3.144.206.166:8000/blogposts/")
   .then(response => response.json())
   .then(json => setData(json))
   .catch(error => console.error(error))
@@ -48,8 +48,8 @@ const getBlogposts = () =>{
   renderBlogposts(data,setData);
 };
 
-const deleteAPost = (id) =>{
-  fetch("http://3.144.206.166:8000/blogposts/"+id.toString(),{
+const deleteAPost = async (id) =>{
+  await fetch("http://3.144.206.166:8000/blogposts/"+id.toString(),{
     method: 'DELETE',
   })
   .then(response => response.json())
