@@ -33,9 +33,8 @@ const submitBlogpost = async (title,content) => {
   })
   .then(
     response => response.json()
-  ).then(setData)
+  )
   .catch(error => console.error(error));
-  console.log(title + " " + content);
   getBlogposts();
 }
 
